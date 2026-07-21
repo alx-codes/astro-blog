@@ -1,0 +1,28 @@
+---
+import SocialAstroComponent from "./Social.astro";
+const platform = "github";
+const username = "alx-codes";
+---
+
+<style>
+  footer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  footer p {
+    margin: 0;
+  }
+</style>
+<footer>
+  <p>
+    Learn more about my projects on <a
+      href={`https://www.${platform}.com/${username}`}
+      target="_blank">{platform}</a
+    >!
+  </p>
+  <SocialAstroComponent platform="twitter" username="astrodotbuild" />
+  <SocialAstroComponent platform="github" username="withastro" />
+  <SocialAstroComponent platform="youtube" username="astrodotbuild" />
+</footer>
