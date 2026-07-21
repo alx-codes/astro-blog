@@ -1,23 +1,8 @@
 ---
-import HeaderAstroComponent from "../components/Header.astro";
-import FooterAstroComponent from "../components/Footer.astro";
-import "../styles/global.css";
-
+import BaseLayoutAstroComponent from "../layouts/BaseLayout.astro";
 const pageTitle = "Home Page";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>{pageTitle}</title>
-  </head>
-  <body>
-    <HeaderAstroComponent />
-    <h1>{pageTitle}</h1>
-    <FooterAstroComponent />
-  </body>
-</html>
+<BaseLayoutAstroComponent pageTitle={pageTitle}>
+  <h2>{pageTitle}</h2>
+</BaseLayoutAstroComponent>
