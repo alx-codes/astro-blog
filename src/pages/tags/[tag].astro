@@ -3,31 +3,45 @@ import BaseLayoutAstroComponent from "../../layouts/BaseLayout.astro";
 import BlogPostAstroComponent from "../../components/BlogPost.astro";
 
 export async function getStaticPaths() {
+  // get all markdown posts
   const allPosts = Object.values(
     import.meta.glob("../posts/*.md", { eager: true }),
   );
 
-  return [
+  // create a flat array of unique tags from all posts
+  const uniqueTags = [
+    ...new Set(allPosts.map((post: any) => post.frontmatter.tags).flat()),
+  ];
+
+  // generate a route for every existing tag and pass the posts
+  /* return [
     { params: { tag: "astro" }, props: { posts: allPosts } },
     { params: { tag: "successes" }, props: { posts: allPosts } },
     { params: { tag: "community" }, props: { posts: allPosts } },
     { params: { tag: "blogging" }, props: { posts: allPosts } },
     { params: { tag: "setbacks" }, props: { posts: allPosts } },
     { params: { tag: "learning in public" }, props: { posts: allPosts } },
-  ];
+  ]; */
+
+  return uniqueTags.map((tag) => {
+    const filteredPosts = allPosts.filter((post: any) =>
+      post.frontmatter.tags.includes(tag),
+    );
+    return {
+      params: { tag },
+      props: { posts: filteredPosts },
+    };
+  });
 }
 
 const { tag } = Astro.params;
 const { posts } = Astro.props;
-const filteredPosts = posts.filter((post: any) =>
-  post.frontmatter.tags?.includes(tag),
-);
 ---
 
 <BaseLayoutAstroComponent pageTitle={tag}>
   <p>Posts tagged with {tag}</p>
   {
-    filteredPosts.map((post: any) => (
+    posts.map((post: any) => (
       <BlogPostAstroComponent url={post.url} title={post.frontmatter.title} />
     ))
   }
