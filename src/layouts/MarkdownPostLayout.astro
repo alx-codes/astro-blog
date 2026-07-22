@@ -1,12 +1,11 @@
 ---
 import BaseLayoutAstroComponent from "./BaseLayout.astro";
-import BlogPostAstroComponent from "../components/BlogPost.astro";
 
 const { frontmatter } = Astro.props;
 ---
 
 <BaseLayoutAstroComponent pageTitle={frontmatter.title}>
-  <p>Published on: {frontmatter.pubDate.toString().slice(0, 10)}</p>
+  <p>Published on: {frontmatter.pubDate.toLocaleDateString()}</p>
   <p>Written by {frontmatter.author}</p>
   <p>{frontmatter.description}</p>
   <img src={frontmatter.image.url} alt={frontmatter.image.alt} />

@@ -1,16 +1,15 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayoutAstroComponent from "../../layouts/BaseLayout.astro";
 import BlogPostAstroComponent from "../../components/BlogPost.astro";
 
 export async function getStaticPaths() {
   // get all markdown posts
-  const allPosts = Object.values(
-    import.meta.glob("../posts/*.md", { eager: true }),
-  );
+  const allPosts = await getCollection("blog");
 
   // create a flat array of unique tags from all posts
   const uniqueTags = [
-    ...new Set(allPosts.map((post: any) => post.frontmatter.tags).flat()),
+    ...new Set(allPosts.map((post: any) => post.data.tags).flat()),
   ];
 
   // generate a route for every existing tag and pass the posts
@@ -25,7 +24,7 @@ export async function getStaticPaths() {
 
   return uniqueTags.map((tag) => {
     const filteredPosts = allPosts.filter((post: any) =>
-      post.frontmatter.tags.includes(tag),
+      post.data.tags.includes(tag),
     );
     return {
       params: { tag },
@@ -42,7 +41,10 @@ const { posts } = Astro.props;
   <p>Posts tagged with {tag}</p>
   {
     posts.map((post: any) => (
-      <BlogPostAstroComponent url={post.url} title={post.frontmatter.title} />
+      <BlogPostAstroComponent
+        url={`/posts/${post.id}/`}
+        title={post.data.title}
+      />
     ))
   }
 </BaseLayoutAstroComponent>
