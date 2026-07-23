@@ -1,5 +1,5 @@
 ---
-title: "My Third Blog Post"
+title: "My Second Blog Post"
 description: "I had some challenges, but asking in the community really helped!"
 author: "Astro Learner"
 image:
